@@ -70,28 +70,13 @@ var lookup = {
           inquirer.prompt([
             {
               type: 'list',
-              message: 'Please confirm, do you wish to purchase (' + answers.numberToPurchase + ') of this product:\n' + lookup.product,
+              message: '\nPlease confirm, do you wish to purchase (' + answers.numberToPurchase + ') of this product:\n' + lookup.product,
               choices: ['Yes', 'No'],
               name: 'whichOne'
             }
           ]).then(function(answers) {
             if (answers.whichone === 'No'){
-              inquirer.prompt([
-                {
-                  type: 'list',
-                  message: '\nWhat would you like to do?',
-                  choices: ['View Bamazon product list again', 'Exit'],
-                  name: 'buyOrLeave'
-                }
-              ]).then(function(answers) {
-                if (answers.buyOrLeave === 'View Bamazon product list again'){
-                  look.displayAllProducts();
-                }
-                else {
-                  console.log("Farewell!");
-                  process.exit(0);
-                }
-              });
+              lookup.stayOrLeave();
             }
             else {
               lookup.checkInventoryStock(res, lookup.product);
@@ -102,7 +87,11 @@ var lookup = {
     });
   },
   checkInventoryStock: function(res, product){
-    if (res[lookup.index].stock_quantity > lookup.quantity){
+    if (res[lookup.index].stock_quantity === 0){
+      console.log("This item is currently out of stock. We apologize for the inconvenience");
+      lookup.stayOrLeave();
+    }
+    else if (res[lookup.index].stock_quantity > lookup.quantity){
       console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n")
       var totalCost = ((lookup.quantity) * (res[lookup.index].price)).toFixed(2);
       inquirer.prompt([
@@ -117,22 +106,27 @@ var lookup = {
           lookup.placeOrder(res, product);
         }
         else {
-           inquirer.prompt([
-                {
-                  type: 'list',
-                  message: '\nWhat would you like to do?',
-                  choices: ['View Bamazon product list again', 'Exit'],
-                  name: 'buyOrLeave'
-                }
-              ]).then(function(answers) {
-                if (answers.buyOrLeave === 'View Bamazon product list again'){
-                  look.displayAllProducts();
-                }
-                else {
-                  console.log("Farewell!");
-                  process.exit(0);
-                }
-              });
+           lookup.stayOrLeave();
+        }
+      });
+    }
+    else if (res[lookup.index].stock_quantity < lookup.quantity){
+      lookup.quantity = (res[lookup.index].stock_quantity);
+      console.log("\nIt seems that this item is in short supply and (" + res[lookup.index].stock_quantity + ") are available for purchase");
+      inquirer.prompt([
+        {
+          type: 'list',
+          message: 'Would you like to re-order (' + lookup.quantity + ') of this item or exit the store?',
+          choices: ['Yes, re-order', 'No, exit store'],
+          name: 'reOrder'
+        }
+      ]).then(function(answers) {
+        if (answers.reOrder === 'Yes, re-order'){
+          lookup.placeOrder();
+        } 
+        else {
+          console.log("Farewell!");
+          process.exit(0);
         }
       });
     }
@@ -140,21 +134,39 @@ var lookup = {
   placeOrder: function(res, product){
     var newQuantity = ((res[lookup.index].stock_quantity) - lookup.quantity);
     var productId = (lookup.index + 1);
-    connection.query(
-    
-    "UPDATE products SET ? WHERE ?",
-    [
-      {
-        stock_quantity: newQuantity
-      },
-      {
-        item_id: productId
+    connection.query("UPDATE products SET ? WHERE ?",
+      [
+        {
+          stock_quantity: newQuantity
+        },
+        {
+          item_id: productId
+        }
+      ],
+      function(err, res) {
+        console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n")
+        console.log("\nThank you for your order!")
+        console.log("\nInventory updated")
       }
-    ],
-    function(err, res) {
-      console.log("Inventory updated")
-    }
-  );
+    );
+  },
+  stayOrLeave: function(){
+    inquirer.prompt([
+      {
+        type: 'list',
+        message: '\nWhat would you like to do?',
+        choices: ['View Bamazon product list again', 'Exit'],
+        name: 'stayOrLeave'
+      }
+    ]).then(function(answers) {
+      if (answers.stayOrLeave === 'View Bamazon product list again'){
+        look.displayAllProducts();
+      }
+      else {
+        console.log("Farewell!");
+        process.exit(0);
+      }
+    });
   }
 };
 
