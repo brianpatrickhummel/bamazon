@@ -24,6 +24,7 @@ var lookup = {
   index: null,
   product: null,
   quantity: 0,
+  // function to display current inventory of store
   displayAllProducts: function() {
     console.log("*   •   *   •   *   •   *   •   *   •   *   •   *   •");
     console.log("\n********** Welcome to the Bamazon Store **********\n");
@@ -39,6 +40,7 @@ var lookup = {
     });  
     }, 3500);
   },
+  // function to gather purchase data prior to actual purchase process
   purchaseItem: function(res){
     inquirer.prompt([
       {
@@ -86,6 +88,7 @@ var lookup = {
       }
     });
   },
+  //function to check inventory stock of requested item
   checkInventoryStock: function(res, product){
     if (res[lookup.index].stock_quantity === 0){
       console.log("This item is currently out of stock. We apologize for the inconvenience");
@@ -131,6 +134,7 @@ var lookup = {
       });
     }
   },
+  //function to place order (checkout) and update inventory
   placeOrder: function(res, product){
     var newQuantity = ((res[lookup.index].stock_quantity) - lookup.quantity);
     var productId = (lookup.index + 1);
@@ -150,6 +154,7 @@ var lookup = {
       }
     );
   },
+  //function which negotiates situations where starting over or exiting are the options
   stayOrLeave: function(){
     inquirer.prompt([
       {
