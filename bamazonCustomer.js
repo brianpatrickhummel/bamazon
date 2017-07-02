@@ -13,13 +13,13 @@ var connection = mysql.createConnection({
 // connect to the mysql server and sql database
 connection.connect(function(err) {
   if (err) throw err;
-  // run the start function after the connection is made to prompt the user
+  // run function to display all products in store after the connection is made
   lookup.displayAllProducts();
 });
 
 
 
-
+// main object containing functions and variables for various store features
 var lookup = {
   index: null,
   product: null,
@@ -40,7 +40,7 @@ var lookup = {
     });  
     }, 3500);
   },
-  // function to gather purchase data prior to actual purchase process
+  // function to gather purchase data prior to the checkout process
   purchaseItem: function(res){
     inquirer.prompt([
       {
@@ -64,11 +64,8 @@ var lookup = {
           }
         ]).then(function(answers) {
           lookup.index = ((answers.itemId) - 1);
-          // console.log(index);
           lookup.product = res[lookup.index].product_name;
-          // console.log(product);
           lookup.quantity = answers.numberToPurchase;
-          // console.log(quantity);
           inquirer.prompt([
             {
               type: 'list',
@@ -88,12 +85,14 @@ var lookup = {
       }
     });
   },
-  //function to check inventory stock of requested item
+  // function to check inventory stock of requested item
   checkInventoryStock: function(res, product){
+    // item out of stock
     if (res[lookup.index].stock_quantity === 0){
       console.log("This item is currently out of stock. We apologize for the inconvenience");
       lookup.stayOrLeave();
     }
+    // item is sufficiently stock to complete order
     else if (res[lookup.index].stock_quantity > lookup.quantity){
       console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n")
       var totalCost = ((lookup.quantity) * (res[lookup.index].price)).toFixed(2);
@@ -104,6 +103,7 @@ var lookup = {
           choices: ['Yes', 'No'],
           name: 'confirmOrder'
         }
+      // final order confirmation prompt 
       ]).then(function(answers) {
         if (answers.confirmOrder === 'Yes'){
           lookup.placeOrder(res, product);
@@ -113,9 +113,11 @@ var lookup = {
         }
       });
     }
+    // item is in stock but stock is not sufficient for the quantity ordered
     else if (res[lookup.index].stock_quantity < lookup.quantity){
       lookup.quantity = (res[lookup.index].stock_quantity);
       console.log("\nIt seems that this item is in short supply and (" + res[lookup.index].stock_quantity + ") are available for purchase");
+      // option to re-order a lesser quantity
       inquirer.prompt([
         {
           type: 'list',
@@ -123,6 +125,7 @@ var lookup = {
           choices: ['Yes, re-order', 'No, exit store'],
           name: 'reOrder'
         }
+      // final order confirmation prompt for adjusted quantity order
       ]).then(function(answers) {
         if (answers.reOrder === 'Yes, re-order'){
           lookup.placeOrder();
@@ -154,7 +157,7 @@ var lookup = {
       }
     );
   },
-  //function which negotiates situations where starting over or exiting are the options
+  //function which negotiates situations where options are starting order process over or exiting 
   stayOrLeave: function(){
     inquirer.prompt([
       {
