@@ -1,30 +1,7 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
 var manager = require('./bamazonManager.js');
-
-// create the connection information for the sql database
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 8889,
-  user: "root",
-  password: "root",
-  database: "bamazon"
-});
-
-// connect to the mysql server and sql database
-connection.connect(function(err) {
-  if (err) throw err;
-  if (process.argv[2] === 'manager'){
-    manager();
-  }
-  else {
-    // run function to display all products in store after the connection is made
-    lookup.displayAllProducts();
-  }
-});
-
-
-
+var db = require('./mysqlConnection.js');   // shared mysql connection data file
 
 // main object containing functions and variables for various store features
 var lookup = {
@@ -37,7 +14,7 @@ var lookup = {
     console.log("\n********** Welcome to the Bamazon Store **********\n");
     console.log("           (LOADING STORE INVENTORY)\n");
     setTimeout(function() {
-      connection.query("SELECT * FROM products", function(err, res) {
+      db.query("SELECT * FROM products", function(err, res) {
       if (err) throw err;
       // Log all results of the SELECT statement
       for (var i = 0; i < res.length; i++){
@@ -148,7 +125,7 @@ var lookup = {
   placeOrder: function(res, product){
     var newQuantity = ((res[lookup.index].stock_quantity) - lookup.quantity);
     var productId = (lookup.index + 1);
-    connection.query("UPDATE products SET ? WHERE ?",
+    db.query("UPDATE products SET ? WHERE ?",
       [
         {
           stock_quantity: newQuantity
@@ -185,6 +162,10 @@ var lookup = {
   }
 };
 
-
-
+// Initialization of Main Application from NODE.js CLI
+// either the Management Tools app or Consumer Purchase app launces
+if (process.argv[2] === 'manager'){
+    manager();
+  }
+else lookup.displayAllProducts();
 
