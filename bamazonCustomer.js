@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
+var manager = require('./bamazonManager.js');
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -13,9 +14,15 @@ var connection = mysql.createConnection({
 // connect to the mysql server and sql database
 connection.connect(function(err) {
   if (err) throw err;
-  // run function to display all products in store after the connection is made
-  lookup.displayAllProducts();
+  if (process.argv[2] === 'manager'){
+    manager();
+  }
+  else {
+    // run function to display all products in store after the connection is made
+    lookup.displayAllProducts();
+  }
 });
+
 
 
 
@@ -109,7 +116,7 @@ var lookup = {
           lookup.placeOrder(res, product);
         }
         else {
-           lookup.stayOrLeave();
+          lookup.stayOrLeave();
         }
       });
     }
@@ -177,6 +184,7 @@ var lookup = {
     });
   }
 };
+
 
 
 
