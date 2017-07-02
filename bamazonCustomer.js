@@ -61,16 +61,16 @@ var lookup = {
             name: 'numberToPurchase'
           }
         ]).then(function(answers) {
-          index = ((answers.itemId) - 1);
+          lookup.index = ((answers.itemId) - 1);
           // console.log(index);
-          product = res[index].product_name;
+          lookup.product = res[lookup.index].product_name;
           // console.log(product);
           lookup.quantity = answers.numberToPurchase;
           // console.log(quantity);
           inquirer.prompt([
             {
               type: 'list',
-              message: 'Please confirm, do you wish to purchase (' + answers.numberToPurchase + ') of this product:\n' + product,
+              message: 'Please confirm, do you wish to purchase (' + answers.numberToPurchase + ') of this product:\n' + lookup.product,
               choices: ['Yes', 'No'],
               name: 'whichOne'
             }
@@ -79,7 +79,7 @@ var lookup = {
               inquirer.prompt([
                 {
                   type: 'list',
-                  message: 'What would you like to do?',
+                  message: '\nWhat would you like to do?',
                   choices: ['View Bamazon product list again', 'Exit'],
                   name: 'buyOrLeave'
                 }
@@ -89,12 +89,12 @@ var lookup = {
                 }
                 else {
                   console.log("Farewell!");
-                  return false;
+                  process.exit(0);
                 }
               });
             }
             else {
-              lookup.checkInventoryStock(res, product);
+              lookup.checkInventoryStock(res, lookup.product);
             }
           });
         });
@@ -102,30 +102,61 @@ var lookup = {
     });
   },
   checkInventoryStock: function(res, product){
-    if (res[index].stock_quantity > lookup.quantity){
+    if (res[lookup.index].stock_quantity > lookup.quantity){
       console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n")
-      var totalCost = ((lookup.quantity) * (res[index].price));
+      var totalCost = ((lookup.quantity) * (res[lookup.index].price)).toFixed(2);
       inquirer.prompt([
         {
           type: 'list',
-          message: "The total for your order of (" + lookup.quantity + ") " + product + " is $" + totalCost + "\n\nDo you confirm the accuracy of this order and wish to proceed with this purchase?",
+          message: "The total for your order of (" + lookup.quantity + ") " + lookup.product + " is $" + totalCost + "\nDo you confirm the accuracy of this order and wish to proceed with this purchase?",
           choices: ['Yes', 'No'],
           name: 'confirmOrder'
         }
       ]).then(function(answers) {
         if (answers.confirmOrder === 'Yes'){
-          lookup.placeOrder();
+          lookup.placeOrder(res, product);
         }
         else {
-
+           inquirer.prompt([
+                {
+                  type: 'list',
+                  message: '\nWhat would you like to do?',
+                  choices: ['View Bamazon product list again', 'Exit'],
+                  name: 'buyOrLeave'
+                }
+              ]).then(function(answers) {
+                if (answers.buyOrLeave === 'View Bamazon product list again'){
+                  look.displayAllProducts();
+                }
+                else {
+                  console.log("Farewell!");
+                  process.exit(0);
+                }
+              });
         }
       });
     }
   },
-  placeOrder: function(){
-
+  placeOrder: function(res, product){
+    var newQuantity = ((res[lookup.index].stock_quantity) - lookup.quantity);
+    var productId = (lookup.index + 1);
+    connection.query(
+    
+    "UPDATE products SET ? WHERE ?",
+    [
+      {
+        stock_quantity: newQuantity
+      },
+      {
+        item_id: productId
+      }
+    ],
+    function(err, res) {
+      console.log("Inventory updated")
+    }
+  );
   }
 };
 
-// res[index].product_name;
+
 
