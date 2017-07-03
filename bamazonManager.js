@@ -95,6 +95,7 @@ function manager() {
                   }
                 }
               ]).then(function(answers) {
+                var inventoryChange = parseInt(answers.howMany);
                 inquirer.prompt([
                   {
                     type: "list",
@@ -103,7 +104,7 @@ function manager() {
                     choices: ['Yes', 'No'],
                   }
                 ]).then(function(answers) {
-                  var newQuantity = ((managerOptions.productList[whichProduct - 1].stock_quantity) + answers.howMany);
+                  var newQuantity = (parseInt(managerOptions.productList[whichProduct - 1].stock_quantity) + inventoryChange);
                   console.log(newQuantity);
                   if (answers.confirm === 'Yes') {
                     db.query(
