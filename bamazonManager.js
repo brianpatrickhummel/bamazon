@@ -14,6 +14,7 @@ function manager() {
   // Main Object of Management Tools functions
   var managerOptions = {
     productList: [],
+    index: null,
     // function to display the main Management Tools menu
     displayMenu: function(){
       inquirer.prompt([
@@ -70,11 +71,11 @@ function manager() {
             }
           }
         ]).then(function(answers) {
-          whichProduct = answers.whichProduct;
+          managerOptions.index = (answers.whichProduct -1);
           inquirer.prompt([
             {
               type: 'list',
-              message: '\nYou have entered the product id (' + whichProduct + ')\nIf this is correct choose YES, otherwise choose NO to re-type correct product id',
+              message: '\nYou have entered the product id of the item: ' + managerOptions.productList[managerOptions.index].product_name + ')\nIf this is correct choose YES, otherwise choose NO to re-type correct product id',
               choices: ['YES', 'NO'],
               name: 'confirm'
             }
@@ -136,7 +137,7 @@ function manager() {
                       }
                     );
                   }
-                  else process.exit(0);
+                  else {console.log("Goodbye"); process.exit(0)};
                 });
               });
             }
