@@ -8,29 +8,30 @@ A video demo of the challenge 1 (consumer store) and challenge 2 (management too
 The Bamazon store includes two application modes: Consumer Store and Management Tools.
 
 
+
 ### Consumer Store
-To enter the **Consumer Store**, from the CLI type: * node bamazonCustomer.js *
+To enter the **Consumer Store**, from the CLI type: *node bamazonCustomer.js*
 
-*After loading the Consumer Store, a list of all the currently stocked products will be listed on the screen. 
+* After loading the Consumer Store, a list of all the currently stocked products will be listed on the screen. 
 
-*A prompt will then display, asking if the purchase of an item is necessary. If so, a prompt will then request the **product id number** of the item to be purchased. The user will enter a **product id number**
+* A prompt will then display, asking if the purchase of an item is necessary. If so, a prompt will then request the **product id number** of the item to be purchased. The user will enter a **product id number**
 
-*A prompt will then for a **quantity** of the selected item to be purchased. The user will enter a **number**.
+* A prompt will then for a **quantity** of the selected item to be purchased. The user will enter a **number**.
 
-*A confirmation prompt will appear, asking the user to confirm that the information gathered thus far is corrent,  displaying the product name and the quantity to be purchased. The user will confirm.
+* A confirmation prompt will appear, asking the user to confirm that the information gathered thus far is corrent,  displaying the product name and the quantity to be purchased. The user will confirm.
 
-*The application will then query the Store Database and check the requested quantity of the selected item against the current inventory.  
-  *If the quantity ordered exceeds current stock, the user will be prompted and asked if they wish to purchase the amount of stock that is currently available.
-  *If, for some reason, the item is out of stock, the user is informed that the item is no longer available and is prompted to either remain in the store or to exit.
+* The application will then query the Store Database and check the requested quantity of the selected item against the current inventory.  
+  * If the quantity ordered exceeds current stock, the user will be prompted and asked if they wish to purchase the amount of stock that is currently available.
+  * If, for some reason, the item is out of stock, the user is informed that the item is no longer available and is prompted to either remain in the store or to exit.
 
-*This is followed by a final order confirmation prompt, displaying the product name, number of items to be purchased and the total price.  If confirmed by customer, the order is placed and the inventory record
+* This is followed by a final order confirmation prompt, displaying the product name, number of items to be purchased and the total price.  If confirmed by customer, the order is placed and the inventory record
 
 
 
 
 
 ### Management Tools
-To enter the **Management Tools**, from the CLI type: * node bamazonCustomer.js manager *
+To enter the **Management Tools**, from the CLI type: *node bamazonCustomer.js manager*
 
 Within the Management Tools application, a menu present the following four available options:
 
