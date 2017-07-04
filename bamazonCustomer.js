@@ -22,7 +22,7 @@ var lookup = {
       }
       lookup.purchaseItem(res);
     });  
-    }, 3500);
+    }, 800);
   },
   // function to gather purchase data prior to the checkout process
   purchaseItem: function(res){
@@ -58,7 +58,7 @@ var lookup = {
               name: 'whichOne'
             }
           ]).then(function(answers) {
-            if (answers.whichone === 'No'){
+            if (answers.whichOne === 'No'){
               lookup.stayOrLeave();
             }
             else {
@@ -138,6 +138,7 @@ var lookup = {
         console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n")
         console.log("\nThank you for your order!")
         console.log("\nInventory updated")
+        process.exit(0);
       }
     );
   },
@@ -152,7 +153,7 @@ var lookup = {
       }
     ]).then(function(answers) {
       if (answers.stayOrLeave === 'View Bamazon product list again'){
-        look.displayAllProducts();
+        lookup.displayAllProducts();
       }
       else {
         console.log("Farewell!");
@@ -163,7 +164,8 @@ var lookup = {
 };
 
 // Initialization of Main Application from NODE.js CLI
-// either the Management Tools app or Consumer Purchase app launces
+// "node bamazonCustomer.js" will load the consumer store
+// "node bamazonCustomer.js manager" will load the management tools
 if (process.argv[2] === 'manager'){
     manager();
   }

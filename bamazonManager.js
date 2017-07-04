@@ -10,6 +10,7 @@ function manager() {
   setTimeout(function() {
     managerOptions.displayMenu();
   }, 550);
+  
   // Main Object of Management Tools functions
   var managerOptions = {
     productList: [],
@@ -119,6 +120,19 @@ function manager() {
                       ],
                       function(err, res) {
                         console.log("\nProduct inventory successfully updated!\n");
+                        inquirer.prompt([
+                          {
+                            type: 'list',
+                            message: 'Modify inventory for additional products?',
+                            choices: ['Yes', 'No'],
+                            name: 'whichOne'
+                          }
+                        ]).then(function(answers) {
+                          if (answers.whichOne === 'Yes'){
+                            managerOptions["Add to Inventory"]();
+                          }
+                          else process.exit(0);
+                        });
                       }
                     );
                   }
@@ -131,7 +145,67 @@ function manager() {
       }, 600);
     },
     // add a new product to the store inventory database
-    "Add New Product": null
+    "Add New Product": function() {
+      inquirer.prompt([
+        {
+          type: 'input',
+          message: '\nEnter the product name: ',
+          name: 'productName'
+        },
+        {
+          type: 'input',
+          message: 'Enter the department that will house this product: ',
+          name: 'deptName'
+        },
+        {
+          type: 'input',
+          message: 'Enter the purchase price in USD (enter only dollars/cents, no currency symbol): ',
+          name: 'price',
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+        },
+        {
+          type: 'input',
+          message: 'Enter the number of units that will be added to inventory stock: ',
+          name: 'stock',
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+        }
+      ]).then(function(answers) {
+        db.query(
+          "INSERT INTO products SET ?",
+          {
+            product_name: answers.productName,
+            department_name: answers.deptName,
+            price: answers.price, 
+            stock_quantity: answers.stock
+          },function(err, res) {
+            console.log("\nProduct has been added to inventory.");
+            inquirer.prompt([
+              {
+                type: 'list',
+                message: '\nAdd additional new products to inventory?',
+                choices: ['Yes', 'No'],
+                name: 'whichOne'
+              }
+            ]).then(function(answers) {
+              if (answers.whichOne === "Yes") {
+                managerOptions["Add New Product"]();
+              }
+              else {console.log('\nGoodbye'); process.exit(0);}
+            });
+          }
+        );
+      });
+    }
   };
 }
 
