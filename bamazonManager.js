@@ -137,7 +137,7 @@ function manager() {
                       }
                     );
                   }
-                  else {console.log("Goodbye"); process.exit(0)};
+                  else {console.log("Goodbye"); process.exit(0);}
                 });
               });
             }
