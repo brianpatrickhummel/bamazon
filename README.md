@@ -1,4 +1,4 @@
-# Welcome to Brian Hummel's Bamazon Store application
+# Bamazon Store Node.js/mySQL Application
 
 ### Video Demo
 A video demo of the challenge 1 (consumer store) and challenge 2 (management tools) portions of the Bamazon Store assignment can be viewed by clicking [here](https://youtu.be/kzKggyn5Jjw)
@@ -55,7 +55,7 @@ Within the Management Tools application, a menu present the following four avail
 
 * A prompt confirms that the product selected will have it's stock increased by the quantity entered.  Manager will confirm and the Store Inventory database will modify the stock for the item.
 
-* A prompt will present option to modify additional inventory items or to exit.
+* A prompt will present the option to modify additional inventory items or to exit.
 
 
 **4. Add New Product**
