@@ -47,11 +47,11 @@ Within the Management Tools application, a menu present the following four avail
 
 * A complete list of current inventory is displayed
 
-* A prompt requests the id number of the product for inventory adjustment. Manager identifies product to be adjusted.
+* A prompt requests the **product id number** to target for inventory adjustment. Manager enters the **product id number**.
 
-* A prompt asks to confirm the product name to be adjusted.  Manger will confirm.
+* A prompt asks to confirm the product name to be adjusted.  Manager will confirm.
 
-* A prompt requests the quantity to increase the product's stock by.  Manager will enter a number.
+* A prompt requests the **quantity** to increase the product's stock by.  Manager will enter a **number**.
 
 * A prompt confirms that the product selected will have it's stock increased by the quantity entered.  Manager will confirm and the Store Inventory database will modify the stock for the item.
 
@@ -61,12 +61,12 @@ Within the Management Tools application, a menu present the following four avail
 **4. Add New Product**
 This tool will allow for the creation of a new product record in the Store's database.
 
-* A prompt will ask for the name of the product.  Manager will enter the name
+* A prompt will ask for the **product name**.  Manager will enter the **product name**.
 
-* A prompt will ask for the Store Department name to file the product within.  Manager will enter the department name.
+* A prompt will ask for the Store **Department Name** to file the product within.  Manager will enter the **Department Name**.
 
-* A prompt asks for the purchase price (USD) in dollars/cent format excluding any currency symbols. Manager will enter the price.
+* A prompt asks for the purchase **price** (USD) in dollars/cent format excluding any currency symbols. Manager will enter the **price**.
 
-* A prompt asks what number to set the initial inventory stock quantity at.  Manager will enter a number.
+* A prompt asks what **quantity** to set the initial inventory stock quantity at.  Manager will enter a **number**.
 
 * The product is then added to the Store's inventory database. A prompt will allow the manager to either add another new item to inventory or to exit.
