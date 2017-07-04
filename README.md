@@ -1,14 +1,14 @@
 # Welcome to Brian Hummel's Bamazon Store application
 
-## Video Demo
+### Video Demo
 A video demo of the challenge 1 (consumer store) and challenge 2 (management tools) portions of the Bamazon Store assignment can be viewed by clicking [here](https://youtu.be/kzKggyn5Jjw)
 
 
-##Instructions
+## Instructions
 The Bamazon store includes two application modes: Consumer Store and Management Tools.
 
 
-###Consumer Store
+### Consumer Store
 To enter the **Consumer Store**, from the CLI type: * node bamazonCustomer.js *
 
 *After loading the Consumer Store, a list of all the currently stocked products will be listed on the screen. 
@@ -29,7 +29,7 @@ To enter the **Consumer Store**, from the CLI type: * node bamazonCustomer.js *
 
 
 
-###Management Tools
+### Management Tools
 To enter the **Management Tools**, from the CLI type: * node bamazonCustomer.js manager *
 
 Within the Management Tools application, a menu present the following four available options:
