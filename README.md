@@ -3,7 +3,7 @@
 Amazon-like Node.js CLI app paired with a MySQL Database. Interface built with the Inquirer NPM library, which allows customers to purchase products as well as permits management to manage store inventory.
 
 ### Video Demo
-A video demo of the challenge 1 (consumer store) and challenge 2 (management tools) portions of the Bamazon Store assignment can be viewed by clicking [here](https://youtu.be/kzKggyn5Jjw)
+This application runs in the Node Command Line Interface and is, therefore, not deployed for viewing.   A demo of the CLI operation of the app can be viewed by clicking [here](https://youtu.be/kzKggyn5Jjw)
 
 
 ## Instructions
