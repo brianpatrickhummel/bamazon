@@ -106,14 +106,15 @@ function manager() {
           ])
           .then(function(answers) {
             managerOptions.index = answers.whichProduct - 1;
+            whichProduct =
+              managerOptions.productList[managerOptions.index].product_name;
             inquirer
               .prompt([
                 {
                   type: "list",
                   message:
                     "\nYou have entered the product id of the item: " +
-                    managerOptions.productList[managerOptions.index]
-                      .product_name +
+                    whichProduct +
                     ")\nIf this is correct choose YES, otherwise choose NO to re-type correct product id",
                   choices: ["YES", "NO"],
                   name: "confirm"
