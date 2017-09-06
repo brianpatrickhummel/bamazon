@@ -153,7 +153,7 @@ var lookup = {
           if (answers.reOrder === "Yes, re-order") {
             lookup.placeOrder();
           } else {
-            console.log("Farewell!");
+            console.log("\nFarewell!\n");
             process.exit(0);
           }
         });
@@ -198,7 +198,7 @@ var lookup = {
         if (answers.stayOrLeave === "View Bamazon product list again") {
           lookup.displayAllProducts();
         } else {
-          console.log("Farewell!");
+          console.log("\nFarewell!\n");
           process.exit(0);
         }
       });

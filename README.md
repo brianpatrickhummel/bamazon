@@ -3,7 +3,7 @@
 Amazon-like Node.js CLI app paired with a MySQL Database. Interface built with the Inquirer NPM library, which allows customers to purchase products as well as permits management to manage store inventory.
 
 ### Video Demo
-This application runs in the Node Command Line Interface and is, therefore, not deployed for viewing.   A demo of the CLI operation of the app can be viewed by clicking [here](https://youtu.be/kzKggyn5Jjw)
+This application runs in the Node Command Line Interface and is, therefore, not deployed for viewing.   A demo of the CLI operation of the app can be viewed by clicking [here](https://youtu.be/Jo7HjSom2YE)
 
 
 ## Instructions
@@ -20,7 +20,7 @@ To enter the **Consumer Store**, from the CLI type: *node bamazonCustomer.js*
 
 * A prompt will then for a **quantity** of the selected item to be purchased. The user will enter a **number**.
 
-* A confirmation prompt will appear, asking the user to confirm that the information gathered thus far is corrent,  displaying the product name and the quantity to be purchased. The user will confirm.
+* A confirmation prompt will appear, asking the user to confirm that the information gathered thus far is correct,  displaying the product name and the quantity to be purchased. The user will confirm.
 
 * The application will then query the Store Database and check the requested quantity of the selected item against the current inventory.  
   * If the quantity ordered exceeds current stock, the user will be prompted and asked if they wish to purchase the amount of stock that is currently available.

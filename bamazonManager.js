@@ -106,15 +106,15 @@ function manager() {
           ])
           .then(function(answers) {
             managerOptions.index = answers.whichProduct - 1;
-            whichProduct =
-              managerOptions.productList[managerOptions.index].product_name;
+            whichProduct = answers.whichProduct;
+            var productName = managerOptions.productList[managerOptions.index].product_name;
             inquirer
               .prompt([
                 {
                   type: "list",
                   message:
                     "\nYou have entered the product id of the item: " +
-                    whichProduct +
+                    productName +
                     ")\nIf this is correct choose YES, otherwise choose NO to re-type correct product id",
                   choices: ["YES", "NO"],
                   name: "confirm"
@@ -147,7 +147,7 @@ function manager() {
                             message:
                               "Confirm, add (" +
                               answers.howMany +
-                              ") units to product id (" +
+                              ") units to product id: (" +
                               whichProduct +
                               ")",
                             name: "confirm",
@@ -157,8 +157,7 @@ function manager() {
                         .then(function(answers) {
                           var newQuantity =
                             parseInt(
-                              managerOptions.productList[whichProduct - 1]
-                                .stock_quantity
+                              managerOptions.productList[managerOptions.index].stock_quantity
                             ) + inventoryChange;
                           console.log(newQuantity);
                           if (answers.confirm === "Yes") {
@@ -189,12 +188,15 @@ function manager() {
                                   .then(function(answers) {
                                     if (answers.whichOne === "Yes") {
                                       managerOptions["Add to Inventory"]();
-                                    } else process.exit(0);
+                                    } else {
+                                      console.log("\nFarewell!\n");
+                                      process.exit(0);
+                                    }
                                   });
                               }
                             );
                           } else {
-                            console.log("Goodbye");
+                            console.log("\nFarewell!\n");
                             process.exit(0);
                           }
                         });
@@ -267,7 +269,7 @@ function manager() {
                   if (answers.whichOne === "Yes") {
                     managerOptions["Add New Product"]();
                   } else {
-                    console.log("\nGoodbye");
+                    console.log("\nFarewell!\n");
                     process.exit(0);
                   }
                 });
