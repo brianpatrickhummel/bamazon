@@ -21,12 +21,7 @@ function manager() {
           {
             type: "list",
             message: "Please select an action from the menu below",
-            choices: [
-              "View Products for Sale",
-              "View Low Inventory",
-              "Add to Inventory",
-              "Add New Product"
-            ],
+            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"],
             name: "menuOption"
           }
         ])
@@ -60,23 +55,24 @@ function manager() {
     },
     // function to view store items with an inventory stock of less than five
     "View Low Inventory": function() {
-      db.query("SELECT * FROM products WHERE stock_quantity<5", function(
-        err,
-        res
-      ) {
+      db.query("SELECT * FROM products WHERE stock_quantity<5", function(err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
-        for (var i = 0; i < res.length; i++) {
-          console.log("");
-          console.log(
-            "\nProduct id: " +
-              res[i].item_id +
-              "\nProduct Name: " +
-              res[i].product_name +
-              "\nCurrent Stock: (" +
-              res[i].stock_quantity +
-              ")\n"
-          );
+        if (res.length) {
+          for (var i = 0; i < res.length; i++) {
+            console.log("");
+            console.log(
+              "\nProduct id: " +
+                res[i].item_id +
+                "\nProduct Name: " +
+                res[i].product_name +
+                "\nCurrent Stock: (" +
+                res[i].stock_quantity +
+                ")\n"
+            );
+          }
+        } else {
+          console.log("\n*** There are no inventory items with less than 5 in stock ***\n");
         }
         process.exit(0);
       });
@@ -91,14 +87,10 @@ function manager() {
           .prompt([
             {
               type: "input",
-              message:
-                "\nEnter a product id number for inventory stock adjustment",
+              message: "\nEnter a product id number for inventory stock adjustment",
               name: "whichProduct",
               validate: function(value) {
-                if (
-                  isNaN(value) === false &&
-                  value <= managerOptions.productList.length
-                ) {
+                if (isNaN(value) === false && value <= managerOptions.productList.length) {
                   return true;
                 } else return false;
               }
@@ -128,8 +120,7 @@ function manager() {
                     .prompt([
                       {
                         type: "input",
-                        message:
-                          "\nHow many units do you wish to add to this product id's inventory?",
+                        message: "\nHow many units do you wish to add to this product id's inventory?",
                         name: "howMany",
                         validate: function(value) {
                           if (isNaN(value) === false) {
@@ -145,20 +136,14 @@ function manager() {
                           {
                             type: "list",
                             message:
-                              "Confirm, add (" +
-                              answers.howMany +
-                              ") units to product id: (" +
-                              whichProduct +
-                              ")",
+                              "Confirm, add (" + answers.howMany + ") units to product id: (" + whichProduct + ")",
                             name: "confirm",
                             choices: ["Yes", "No"]
                           }
                         ])
                         .then(function(answers) {
                           var newQuantity =
-                            parseInt(
-                              managerOptions.productList[managerOptions.index].stock_quantity
-                            ) + inventoryChange;
+                            parseInt(managerOptions.productList[managerOptions.index].stock_quantity) + inventoryChange;
                           console.log(newQuantity);
                           if (answers.confirm === "Yes") {
                             db.query(
@@ -172,15 +157,12 @@ function manager() {
                                 }
                               ],
                               function(err, res) {
-                                console.log(
-                                  "\nProduct inventory successfully updated!\n"
-                                );
+                                console.log("\nProduct inventory successfully updated!\n");
                                 inquirer
                                   .prompt([
                                     {
                                       type: "list",
-                                      message:
-                                        "Modify inventory for additional products?",
+                                      message: "Modify inventory for additional products?",
                                       choices: ["Yes", "No"],
                                       name: "whichOne"
                                     }
@@ -222,8 +204,7 @@ function manager() {
           },
           {
             type: "input",
-            message:
-              "Enter the purchase price in USD (enter only dollars/cents, no currency symbol): ",
+            message: "Enter the purchase price in USD (enter only dollars/cents, no currency symbol): ",
             name: "price",
             validate: function(value) {
               if (isNaN(value) === false) {
@@ -234,8 +215,7 @@ function manager() {
           },
           {
             type: "input",
-            message:
-              "Enter the number of units that will be added to inventory stock: ",
+            message: "Enter the number of units that will be added to inventory stock: ",
             name: "stock",
             validate: function(value) {
               if (isNaN(value) === false) {

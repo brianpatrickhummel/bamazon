@@ -1,7 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var manager = require("./bamazonManager.js");
-var db = require("./mysqlConnection.js"); // shared mysql connection data file
+var db = require("./mysqlConnection.js");
 
 // main object containing functions and variables for various store features
 var lookup = {
@@ -38,8 +38,7 @@ var lookup = {
       .prompt([
         {
           type: "list",
-          message:
-            "Would you like to purchase an item from the Bamazon Store inventory listed above?",
+          message: "Would you like to purchase an item from the Bamazon Store inventory listed above?",
           choices: ["Yes", "No"],
           name: "whichOne"
         }
@@ -93,15 +92,11 @@ var lookup = {
   checkInventoryStock: function(res, product) {
     // item out of stock
     if (res[lookup.index].stock_quantity === 0) {
-      console.log(
-        "This item is currently out of stock. We apologize for the inconvenience"
-      );
+      console.log("This item is currently out of stock. We apologize for the inconvenience");
       lookup.stayOrLeave();
     } else if (res[lookup.index].stock_quantity > lookup.quantity) {
       // item is sufficiently stock to complete order
-      console.log(
-        "\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n"
-      );
+      console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n");
       var totalCost = (lookup.quantity * res[lookup.index].price).toFixed(2);
       inquirer
         .prompt([
@@ -140,10 +135,7 @@ var lookup = {
         .prompt([
           {
             type: "list",
-            message:
-              "Would you like to re-order (" +
-              lookup.quantity +
-              ") of this item or exit the store?",
+            message: "Would you like to re-order (" + lookup.quantity + ") of this item or exit the store?",
             choices: ["Yes, re-order", "No, exit store"],
             name: "reOrder"
           }
@@ -174,9 +166,7 @@ var lookup = {
         }
       ],
       function(err, res) {
-        console.log(
-          "\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n"
-        );
+        console.log("\n* * * * * * * * * ** * * * * * * * * * * * * * * * * * * * * * *\n");
         console.log("\nThank you for your order!");
         console.log("\nInventory updated");
         process.exit(0);
