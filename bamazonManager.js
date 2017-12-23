@@ -87,7 +87,7 @@ function manager() {
           .prompt([
             {
               type: "input",
-              message: "\nEnter a product id number for inventory stock adjustment",
+              message: "Enter a product id number for inventory stock adjustment",
               name: "whichProduct",
               validate: function(value) {
                 if (isNaN(value) === false && value <= managerOptions.productList.length) {
